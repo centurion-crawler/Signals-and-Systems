@@ -1,0 +1,174 @@
+\documentclass[UTF8,a4paper]{article}
+\usepackage{fancyhdr}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\lstset{ %
+	extendedchars=false,            % Shutdown no-ASCII compatible
+	language=Matlab,                % choose the language of the code
+	basicstyle=\small\sf,    % the size of the fonts that are used for the code
+	tabsize=3,                            % sets default tabsize to 3 spaces
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny,              % the size of the fonts that are used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1 each line
+	% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code   %
+	keywordstyle=\color[RGB]{33,33,234},               % keywords
+	commentstyle=\color[RGB]{0,0,0},    % comments
+	stringstyle=\color[rgb]{0.170,0.187,0.102},      % strings
+	backgroundcolor=\color{white}, % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores                frame = single,         % adds a frame around the code
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	title=\lstname,                 % show the filename of files included with \lstinputlisting;
+	% also try caption instead of title
+	mathescape=true,escapechar=?    % escape to latex with ?..?
+	escapeinside={\%*}{*)},         % if you want to add a comment within your code
+	%columns=fixed,                  % nice spacing
+	%morestring=[m]',                % strings
+	%morekeywords={%,...},%          % if you want to add more keywords to the set
+	%    break,case,catch,continue,elseif,else,end,for,function,global,%
+	%    if,otherwise,persistent,return,switch,try,while,...},%
+}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{\bfseries The Matlab Homework week 2}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0.4pt}
+\begin{document}
+\begin{center}
+    \textbf{\LARGE{Matlab Homework week 2}}\\[0.5cm]
+    \normalsize{庄震丰 22920182204393}\\[0.5cm]
+    \large{Sept. $26^{th}$, 2019}
+\end{center}
+\section{Martix Multiplication}
+\subsection{Description}
+\[A=\begin{bmatrix}
+     1 & 2 &  3\\
+    -2 & 0 &  0\\
+     1 & 0 &  1\\
+    -1 & 2 & -3
+\end{bmatrix}, 
+B=\begin{bmatrix}
+    -1 & 3 \\
+    -2 & 2 \\
+     2 & 1
+\end{bmatrix}\]
+solve the matrix $C=A\times B$
+\subsection{Analysis}
+Use the operator $*$ in Matlab directly......
+\subsection{Codes and Result}
+\begin{lstlisting}
+ A=[1,2,3;-2,0,0;1,0,1;-1,2,-3];
+ B=[-1,3;-2,2;2,1];
+ A*B;
+\end{lstlisting}
+Result:\\
+\[ans=\begin{bmatrix}
+    1 & 10\\
+    2 & -6\\
+    1 & 4\\
+    -9 & -2
+\end{bmatrix}\]
+\\
+\section{Solving linear equations}
+\subsection{Description}
+\begin{equation}
+    \left\{
+    \begin{aligned} % \begin{eqnarray}好像也可以。
+    2x_1-x_2+3x_3&=5\\
+    3x_1+x_2-5x_3&=5\\
+    4x_1-x_2+x_3&=9
+    \end{aligned}
+    \right.
+\end{equation}
+Solve the unknown variables $x_1,x_2,x_3$ 
+\subsection{Anaylsis}
+Use coefficient matrix A , vector \textbf{b} repersents the numbers on the right side of equal sign,
+$$
+\begin{aligned}
+     A\cdot \textbf{x}=\textbf{b}&\\
+     \textbf{x}=A^{-1}\cdot & \textbf{b}
+\end{aligned}
+$$
+and the function \textbf{\textit{inv}} in Matlab maybe useful for the solution to inverse matrix.
+\subsection{Code and Result}
+\begin{lstlisting}
+    A=[2,-1,3;3,1,-5;4,-1,1];
+    b=[5;5;9];
+    x=inv(A)*b
+\end{lstlisting}
+Result:\\
+\[\textbf{x}=\begin{bmatrix}
+    2\\
+    -1\\
+    0
+\end{bmatrix}\]
+\\
+\section{Solving roots of the equation}
+\subsection{Description}
+There is a expression
+$$
+(x-4)(x+5)(x^2-6x+9)
+$$
+Expand it into a polynomial form and find the root of 
+its corresponding unary n-order equation
+\subsection{Anaylsis}
+Use vectors to repersent expressions\\
+If
+$$
+\begin{aligned}
+A(s)=a_{n}s^{n}+a_{n-1}s^{n-1} \dots a_1 s+a_0\\
+\end{aligned}
+$$
+let
+\[P=\begin{bmatrix}
+    a_n,a_{n-1},a_{n-2},\dots,a_1,a_0  
+\end{bmatrix} \] in matlab language.
+We also find the function \textbf{\textit{conv}} can make Multiplication between matrices in Matlab.\\
+\indent while the function \textbf{\textit{roots}} can give the solution of the equation.
+\subsection{Code and Result}
+\begin{lstlisting}
+    A=[1,-4];
+    B=[1,5];
+    C=[1,-6,9];
+    D=conv(conv(A,B),C)
+    x=roots(D)
+\end{lstlisting}
+Result:\\
+$x_1=-5,x_2=x_3=3,x_4=4$
+\section{Polynomial operation}
+\subsection{Description}
+There is a expression
+$$
+3x^6+12x^5+4x^4+7x^3+8x+1
+$$
+Give the Result of that divided by $(x-3)(x^3+5x)$.
+\subsection{Anaylsis}
+Use vectors to repersent expressions(the same solution way in problem 3).
+We also find the function \textbf{[R,v]deconv(A,B)} can make Polynomial vector \textbf{A} divided by Polynomial vector \textbf{B}.\\
+which means,$A=R\times B+v$.
+\subsection{Code and Result}
+\begin{lstlisting}
+    A=[3 12 4 7 0 8 1];
+    B=conv([1,-3],[1,0,5,0]);
+    [R v]=deconv(A,B)    
+\end{lstlisting}
+Result:\\
+\[R=\begin{bmatrix}
+    3,21,52  
+\end{bmatrix} 
+,v=\begin{bmatrix}
+    0,0,0,103,55,788,1  
+\end{bmatrix} 
+\]\\
+$R=3x^2+21x+52\\
+v=103x^3+55x^2+788x+1$
+\end{document}

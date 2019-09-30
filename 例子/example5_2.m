@@ -1,0 +1,10 @@
+clear all;
+x=0:pi/30:4*pi;
+subplot(3,2,1);
+plot(x,sin(x));
+subplot(3,2,2);
+plot(x,cos(x));
+subplot(3,2,3);
+plot(x,x);
+subplot(3,2,4);
+plot(x,-x);
