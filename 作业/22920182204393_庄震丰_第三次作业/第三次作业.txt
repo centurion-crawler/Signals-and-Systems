@@ -1,0 +1,68 @@
+1
+s=0;
+for i=0:63
+    s=s+2^i;
+end
+%%%%
+s=0;
+i=0;
+while(i<=63)
+    s=s+2^i;
+    i=i+1;
+end
+%%%%
+sum(2.^[0:63]);
+2
+function r=arcsin(x)
+n=0;
+r=0;
+while(factorial(2*n)*x^(2*n+1)/(2^(2*n)*(factorial(n)^2)*(2*n+1))>=0.002)
+    r=r+factorial(2*n)*x^(2*n+1)/(2^(2*n)*(factorial(n)^2)*(2*n+1));
+    n=n+1;
+end
+end
+
+3-1
+function [b,y]=by(m,n)
+m0=m;n0=n;
+z=mod(m0,n0);
+while(z~=0)
+    m0=n0;n0=z;
+    z=mod(m0,n0);
+end
+b=n0;y=m*n/b;%gcd b  lcm y
+end
+3-2
+function [judge]=sushu(n)
+judge=1;
+for i=2:floor(sqrt(n))+1
+    if (mod(n,i)==0)
+       judge=0;
+    end
+end
+   % 1:is prime
+    % 0:not prime
+end
+
+4
+function [judge]=ismagic(M)
+n=length(M);
+judge=(sum(find(sum(M,2)~=(1+n^2)*n/2))==0)&(sum(find(sum(M,1)~=(1+n^2)*n/2))==0)&(sum(diag(M))==(1+n^2)*n/2)&(sum(diag(rot90(M)))==(1+n^2)*n/2)
+%==(1+n^2)*n/2)
+   % 1:is magic matrix
+    % 0:not magic matrix
+end
+
+5
+disp('数字和为奇数:');
+for i=2:999
+    if mod(sum(num2str(i)-'0'),2)==1
+        disp(i);
+    end
+end
+disp('prime:')
+for i=2:999
+    if sushu(i)==1
+        disp(i);
+    end
+end
