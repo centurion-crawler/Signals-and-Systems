@@ -1,0 +1,245 @@
+\documentclass[UTF8,a4paper]{article}
+\usepackage{fancyhdr}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\lstset{ %
+	extendedchars=false,            % Shutdown no-ASCII compatible
+	language=Matlab,                % choose the language of the code
+	basicstyle=\small\sf,    % the size of the fonts that are used for the code
+	tabsize=3,                            % sets default tabsize to 3 spaces
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny,              % the size of the fonts that are used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1 each line
+	% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code   %
+	keywordstyle=\color[RGB]{33,33,234},               % keywords
+	commentstyle=\color[RGB]{0,0,0},    % comments
+	stringstyle=\color[rgb]{0.170,0.187,0.102},      % strings
+	backgroundcolor=\color{white}, % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores                frame = single,         % adds a frame around the code
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	title=\lstname,                 % show the filename of files included with \lstinputlisting;
+	% also try caption instead of title
+	mathescape=true,escapechar=?    % escape to latex with ?..?
+	escapeinside={\%*}{*)},         % if you want to add a comment within your code
+	%columns=fixed,                  % nice spacing
+	%morestring=[m]',                % strings
+	%morekeywords={%,...},%          % if you want to add more keywords to the set
+	%    break,case,catch,continue,elseif,else,end,for,function,global,%
+	%    if,otherwise,persistent,return,switch,try,while,...},%
+}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{\bfseries The Matlab Homework week 5}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0.4pt}
+\begin{document}
+\begin{center}
+    \textbf{\LARGE{Matlab Homework week 5}}\\[0.5cm]
+    \normalsize{庄震丰 22920182204393}\\[0.5cm]
+    \large{Oct. $19^{th}$, 2019}
+\end{center}
+\section{Sum}
+\subsection{Description}
+get the solution and the answer of 
+$$
+    \sum_{i=0}^{63} 2^i=1+2+2^2+2^3+...+2^63\\
+$$
+by useing \textit{for} and \textit{while} structure.\\
+And give a simple method of the solution.
+\subsection{Analysis}
+For the second question,
+Use the function \textit{sum} in Matlab directly......
+\subsection{Codes and Result}
+\textbf{Question 1}
+\begin{lstlisting}
+    s=0;
+    for i=0:63
+        s=s+2^i;
+    end
+\end{lstlisting}
+\begin{lstlisting}
+    s=0;
+    i=0;
+    while(i<=63)
+        s=s+2^i;
+        i=i+1;
+    end
+\end{lstlisting}
+\textbf{Question 2}
+\begin{lstlisting}
+    sum(2.^[0:63]);
+\end{lstlisting}
+Output:\\
+ans=1.844674407370955e+19\\
+\section{Funtion of arcsin}
+\subsection{Description}
+$$
+\begin{aligned}
+    arcsinx\approx x+ \frac{x^3}{2\cdot 3}+\frac{1 \cdot 3 \cdot x^5}{2\cdot 4 \cdot 5}&+\cdots +\frac{(2n)!x^{2n+1}}{2^{2n}(n!)^2(2n+1)}\\
+    \frac{(2n)!x^{2n+1}}{2^{2n}(n!)^2(2n+1)}<&0.02 
+\end{aligned}
+$$
+give the result of approximate value of arcsinx.\\
+Hint:\\
+use funtion \textit{factorial},the loop structure \textit{while}.
+\subsection{Anaylsis}
+use factorial in the loop while and add the i by step.
+\subsection{Code and Result}
+\begin{lstlisting}
+    function r=arcsin(x)
+    n=0;
+    r=0;
+    while(factorial(2*n)*x^(2*n+1)/(2^(2*n)*(factorial(n)^2)*(2*n+1))>=0.002)
+        r=r+factorial(2*n)*x^(2*n+1)/(2^(2*n)*(factorial(n)^2)*(2*n+1));
+        n=n+1;
+    end
+    end    
+\end{lstlisting}
+>>arcsin(0.5)
+Output:\\
+    ans=0.5232\\
+($pi/6\approx 0.5236$)
+\section{Solving gcd and lcm and judge prime number}
+\subsection{Description}
+
+\noindent Like title.\\
+For the second Question, 1 means the number is prime, else 0.
+\subsection{Anaylsis}
+\textbf{Question 1} \\
+Euclidean algorithm.\\
+\textbf{Question 2}\\
+Each i in loop [2,$\sqrt{n}$] can't be divisible,otherwise the number is not prime number.\\
+use the function \textit{mod} and \textit{floor}.
+\subsection{Code and Result}
+\noindent Question1:\\
+\begin{lstlisting}
+    function [b,y]=by(m,n)
+    m0=m;n0=n;
+    z=mod(m0,n0);
+    while(z~=0)
+        m0=n0;n0=z;
+        z=mod(m0,n0);
+    end
+    b=n0;y=m*n/b; %gcd b,lcm y
+    end
+\end{lstlisting}
+>>[b,y]=by[9,15]\\
+Output:\\
+b=3,y=45\\\\
+Question2:\\
+\begin{lstlisting}
+    function judge=sushu(n)
+    judge=1;
+    for i=2:floor(sqrt(n))+1
+         if (mod(n,i)==0) judge=0;
+         end
+    end
+    end
+\end{lstlisting}
+>>sushu(6)\\
+Output:\\
+ans=0\\\\
+>>sushu(11)\\
+Output:\\
+ans=1\\
+\section{Magic matrix}
+\subsection{Description}
+In MATLAB, the magic() function is called the cube matrix function, which automatically generates a special N-order square matrix (where N=1, 2，3, 4, 5.....). These N-order squares have a common characteristic that the sum of the elements in each row, column or diagonal is equal and constant. Try to design a function mag(n) to verify its wonderful properties for the N-order cube.
+\subsection{Anaylsis}
+\noindent use function \textit{diag} to get the vetctor of diagonal elements.\\
+use function \textit{sum} to summary the each row and column and diagonal,and judge whether they are equal.
+\subsection{Code and Result}
+\begin{lstlisting}
+function [judge]=mag(M)
+    n=length(M);
+    judge=(sum(find(sum(M,2)~=(1+n^2)*n/2))==0)&(sum(find(sum(M,1)~=(1+n^2)*n/2))==0)&(sum(diag(M))==(1+n^2)*n/2)&(sum(diag(rot90(M)))==(1+n^2)*n/2);
+    % 1:is magic matrix
+    % 0:not magic matrix
+end  
+\end{lstlisting}
+>>mag(magic(5))\\
+Output:\\
+ans=1
+\section{Filter}
+\subsection{Description}
+\noindent Find the number of [2,999] that satisfies the following conditions at the same time\\
+(1) The sum of the numbers of the numbers is an odd number\\
+(2) The number is prime
+\subsection{Anaylsis}
+\noindent use function \textit{sushu} to get prime numbers.\\
+use the \textit{sum(sum(num2str(i)-'0')} to solve the value of numbers of the numbers.
+\subsection{Code and Result}
+\begin{lstlisting}
+for i=2:999
+    if (mod(sum(num2str(i)-'0'),2)==1&&sushu(i)==1)
+        disp(i);
+    end
+end
+\end{lstlisting}
+Output:\\
+ans=
+[3,5,7,23,29,41,43,47,61,67,83,89,113,131,137,139,151,157,173,179,191,193,197,199,223,227,229,241,263,269,281,283,311,
+313,317
+   ,331
+   ,337
+   ,353
+   ,359
+   ,373
+   ,379
+   ,397
+   ,401
+   ,409
+   ,421
+   ,443
+   ,449
+   ,461
+   ,463
+   ,467
+   ,487
+   ,557
+   ,571
+   ,577
+   ,593
+   ,599
+   ,601
+   ,607
+   ,641
+   ,643
+   ,647
+   ,661
+   ,683
+   ,719
+   ,733
+   ,739
+   ,751
+   ,757
+   ,773
+   ,797
+   ,809
+   ,821
+   ,823
+   ,827
+   ,829
+   ,863
+   ,881
+   ,883
+   ,887
+   ,911
+   ,919
+   ,937
+   ,953
+   ,971
+   ,977
+   ,991
+   ,997]
+\end{document}

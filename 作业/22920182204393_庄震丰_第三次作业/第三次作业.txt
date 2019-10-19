@@ -33,22 +33,17 @@ end
 b=n0;y=m*n/b;%gcd b  lcm y
 end
 3-2
-function [judge]=sushu(n)
+function judge=isprime(n)
 judge=1;
 for i=2:floor(sqrt(n))+1
-    if (mod(n,i)==0)
-       judge=0;
-    end
+     if (mod(n,i)==0) judge=0;
+     end
 end
-   % 1:is prime
-    % 0:not prime
 end
-
 4
 function [judge]=ismagic(M)
 n=length(M);
-judge=(sum(find(sum(M,2)~=(1+n^2)*n/2))==0)&(sum(find(sum(M,1)~=(1+n^2)*n/2))==0)&(sum(diag(M))==(1+n^2)*n/2)&(sum(diag(rot90(M)))==(1+n^2)*n/2)
-%==(1+n^2)*n/2)
+judge=(sum(find(sum(M,2)~=(1+n^2)*n/2))==0)&(sum(find(sum(M,1)~=(1+n^2)*n/2))==0)&(sum(diag(M))==(1+n^2)*n/2)&(sum(diag(rot90(M)))==(1+n^2)*n/2);
    % 1:is magic matrix
     % 0:not magic matrix
 end
