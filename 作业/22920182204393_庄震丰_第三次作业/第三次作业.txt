@@ -49,15 +49,8 @@ judge=(sum(find(sum(M,2)~=(1+n^2)*n/2))==0)&(sum(find(sum(M,1)~=(1+n^2)*n/2))==0
 end
 
 5
-disp('数字和为奇数:');
 for i=2:999
-    if mod(sum(num2str(i)-'0'),2)==1
-        disp(i);
-    end
-end
-disp('prime:')
-for i=2:999
-    if sushu(i)==1
+    if (mod(sum(num2str(i)-'0'),2)==1&&sushu(i)==1)
         disp(i);
     end
 end
