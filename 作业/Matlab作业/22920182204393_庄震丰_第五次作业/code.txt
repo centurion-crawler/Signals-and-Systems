@@ -1,0 +1,180 @@
+1.
+syms x a;
+f=(sin(x)-sin(a))/(x-a);
+limit(f,x,a)
+
+ans=cos(a)
+
+syms x;
+f=((2*x+3)/(2*x+1))^(x+1);
+limit(f,x,inf)
+
+ans=exp(1)
+
+syms x a;
+f=(sqrt(x)-sqrt(a)+sqrt(x-a))/sqrt(x^2-a^2);
+limit(f,x,a,'right')
+
+ans =1/(2*a)^(1/2)
+
+syms x a;
+f=(sqrt(x)-sqrt(a)+sqrt(x-a))/sqrt(x^2-a^2);
+limit(f,a,x,'left')
+
+ans=1/(2*a)^(1/2)
+
+syms x;
+f=tan(2*x)/tan(5*x);
+limit(f,x,0)
+
+ans=2/5
+2.
+syms t x;
+f=t*sin(x);
+diff(f,x)
+diff(f,t)
+diff(diff(f,x),t)
+
+ans=x*cos(x)
+ans=sin(x)
+ans=cos(x)
+
+syms x y z;
+f=x^(y^z);
+diff(f,x)
+diff(f,y)
+diff(f,z)
+
+ans =x^(y^z - 1)*y^z
+ans =x^(y^z)*y^(z - 1)*z*log(x)
+ans =x^(y^z)*y^z*log(x)*log(y)
+
+3.
+syms u theta r a;
+f=r^2*(1+cos(u))*sin(theta);
+int(int(int(f,r,0,2*a*cos(theta)),theta,0,pi/4),u,0,2*pi)
+
+ans=pi*a^3
+
+clear all;
+syms x;
+f=1/(1+x^2);
+int(f,x,-inf,inf)
+
+ans=pi
+clear all;
+syms x y z;
+a=16;
+b=12;
+c=18;
+equ1=x*(x+y+z)-a;
+equ2=y*(x+y+z)-b;
+equ3=z*(x+y+z)-c;
+s=solve(equ1,equ2,equ3,x,y,z);
+s.x
+s.y
+s.z
+
+result1:
+
+x1=-(8*46^(1/2))/23
+y1=-(6*46^(1/2))/23
+z1=-(9*46^(1/2))/23
+  
+x2=(8*46^(1/2))/23
+y2=(6*46^(1/2))/23
+z2=(9*46^(1/2))/23
+
+5.
+clear all;
+syms x y;
+dsolve('D2y-5*Dy+6*y-x*exp(2*x)')
+
+ans=(x*exp(2*x))/6 + C1*exp(2*t) + C2*exp(3*t)
+
+6
+clear all;
+syms s t;
+eq1='D2s+2*Ds+s';
+eq2='s(0)=4';
+eq3='Ds(0)=-2';
+dsolve(eq1,eq2,eq3)
+
+ans =4*exp(-t) + 2*t*exp(-t)
+
+7.
+syms A a t;
+f=A*exp(a*t);
+laplace(f)
+
+ans=-A/(a - s)
+
+syms s;
+F=s/(s^2-1);
+ilaplace(F)
+
+ans =exp(-t)/2 + exp(t)/2
+
+8.
+(1)
+t=0:0.01:10;
+plot(t,3-exp(-t));
+hold on;
+grid on;
+title('$3-e^{-t}$','Interpreter','Latex');
+hold off;
+figure(2)
+grid on;
+hold on;
+t=sym('t');
+f=sym(3-exp(-t))
+ezplot(f);
+title('$3-e^{-t}$','Interpreter','Latex');
+
+(2)
+clear all;
+t=0:0.01:3;
+plot(t,3*exp(-2*t)+5*exp(-t));
+hold on;
+grid on;
+title('$3e{-2*t}+5e{-t}$','Interpreter','Latex');
+hold off;
+figure(2)
+grid on;
+hold on;
+t=sym('t');
+f=sym(3*exp(-2*t)+5*exp(-t));
+ezplot(f,[0,3]);
+title('$3e{-2*t}+5e{-t}$','Interpreter','Latex');
+
+(3)
+clear all;
+t=0:0.01:3;
+plot(t,exp(-t).*sin(2*pi*t));
+hold on;
+grid on;
+title('$e^{-t}sin(2\pi t)$','Interpreter','Latex');
+hold off;
+figure(2)
+grid on;
+hold on;
+t=sym('t');
+f=sym(exp(-t)*sin(2*pi*t));
+ezplot(f,[0,3]);
+title('$e^{-t}sin(2\pi t)$','Interpreter','Latex');
+(4)
+clear all;
+t=-7:0.01:7;
+a=2
+plot(t,sinc(a*t/pi));
+hold on;
+grid on;
+title('$Sa(at)$','Interpreter','Latex');
+hold off;
+figure(2)
+grid on;
+hold on;
+t=sym('t');
+f=sym(sinc(a*t/pi));
+ezplot(f);
+title('$Sa(at)$','Interpreter','Latex');
