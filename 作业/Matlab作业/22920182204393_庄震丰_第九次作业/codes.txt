@@ -1,0 +1,233 @@
+function [f,t]=ctsconv(f1,f2,t1,t2,dt)
+f=conv(f1,f2);
+f=f*dt;
+ts=min(t1)+min(t2);
+te=max(t1)+max(t2);
+t=ts:dt:te;
+plot(t,f);
+grid on;
+title('f(t)')
+end
+
+
+卷积法：
+1-1
+clear all;
+dt = 0.001 ;
+t1 = 0:dt:10 ;
+f1 = heaviside(t1) ;
+t2 = t1 ;
+b = [0 0 1] ;
+a = [1 4 3] ;
+[A B C D] = tf2ss(b,a) ;
+sys = ss(A,B,C,D) ;
+f2 = impulse(sys,t2) ;
+[f,t] = ctsconv(f1,f2,t1,t2,dt) ;
+subplot(3,1,1)
+plot(t1,f1) ;
+hold on;
+axis([0,10,0,2])
+grid on ;
+title('u(t)') ;
+subplot(3,1,2)
+plot(t2,f2) ;
+grid on ;
+title('h(t)') ;
+subplot(3,1,3)
+plot(t,f) ;
+hold on;
+axis([0,10,0,0.5])
+grid on ;
+title('f(t)*h(t)') ;
+
+1-2
+clear all;
+dt = 0.001 ;
+t1 = 0:dt:10 ;
+f1 = exp(-t1).*heaviside(t1);
+t2 = t1 ;
+b = [0 0 1] ;
+a = [1 4 3] ;
+[A B C D] = tf2ss(b,a) ;
+sys = ss(A,B,C,D) ;
+f2 = impulse(sys,t2) ;
+[f,t] = ctsconv(f1,f2,t1,t2,dt) ;
+subplot(3,1,1)
+plot(t1,f1) ;
+hold on;
+axis([0,10,0,2])
+grid on ;
+title('$f(t)=u(t)e^{-t}$','Interpreter','Latex') ;
+subplot(3,1,2)
+plot(t2,f2) ;
+grid on ;
+title('h(t)') ;
+subplot(3,1,3)
+plot(t,f) ;
+hold on;
+axis([0,10,0,0.5])
+grid on ;
+title('f(t)*h(t)') ;
+
+数值法：
+1-1
+clear all;
+a=[1 4 3];
+b=[0 0 1];
+t=0:0.001:10;
+x=heaviside(t);
+rc=[0,0];
+sys=tf(b,a)
+[A,B,C,D]=tf2ss(b,a)
+subplot(3,1,1),initial(A,B,C,D,rc,t) %零输入响应
+subplot(3,1,2),lsim(b,a,x,t)         %零状态响应
+subplot(3,1,3),lsim(A,B,C,D,x,t,rc)  %全响应,只能用状态系数来表示系统
+1-2
+clear all;
+a=[1 4 4];
+b=[0 1 3];
+t=0:0.001:10;
+x=heaviside(t),*exp(-t);
+rc=[0,0];
+sys=tf(b,a)
+[A,B,C,D]=tf2ss(b,a)
+subplot(3,1,1),initial(A,B,C,D,rc,t) %零输入响应
+subplot(3,1,2),lsim(b,a,x,t)         %零状态响应
+subplot(3,1,3),lsim(A,B,C,D,x,t,rc)  %全响应,只能用状态系数来表示系统
+2
+clear all;
+a=[1 4 3];
+b=[0 1 1];
+t=0:0.001:10;
+x=heaviside(t),*exp(-2*t);
+rc=[2,1];
+sys=tf(b,a)
+[A,B,C,D]=tf2ss(b,a)
+subplot(3,1,1),initial(A,B,C,D,rc,t) %零输入响应
+subplot(3,1,2),lsim(b,a,x,t)         %零状态响应
+subplot(3,1,3),lsim(A,B,C,D,x,t,rc)  %全响应,只能用状态系数来表示系统
+
+
+3
+clear all;
+a=[1 4 3];
+b=[0 1 2];
+t=0:0.001:10;
+x=heaviside(t).*exp(-2*t);
+rc=[1,2];
+sys=tf(b,a)
+[A,B,C,D]=tf2ss(b,a)
+subplot(3,1,1),initial(A,B,C,D,rc,t) %零输入响应
+subplot(3,1,2),lsim(b,a,x,t)         %零状态响应
+subplot(3,1,3),lsim(A,B,C,D,x,t,rc)  %全响应,只能用状态系数来表示系统
+符号法：
+符号法1-1
+clear all;
+eq1='D2y+4*Dy+3*y=heaviside(t)';
+cond='y(-0.01)=0,Dy(-0.01)=0';
+result=dsolve(eq1,cond);
+simplify(result);
+ezplot(result,[0:0.01:10]) ;
+title('y(t)')
+
+1-2
+clear all 
+eq1 ='D2y+4*Dy+4*y=Dx+3*x' ;
+eq2 = 'x=heaviside(t)*exp(-t)' ;
+cond = 'y(-0.01)=0,Dy(-0.01)=0,D2y(-0.01)=0';
+ans1 = dsolve( eq1,eq2,cond); 
+simplify(ans1.y);
+ezplot(ans1.y,[0:0.01:10]) ;
+title('y(t)');
+
+% 2
+clear all 
+% 零状态
+eq1 ='D2y+4*Dy+3*y=Dx+x' ;
+eq2 = 'x=heaviside(t)*exp(-2*t)' ;
+cond = 'y(-0.01)=0,Dy(-0.01)=0,D2y(-0.01)=0';
+ans1 = dsolve( eq1,eq2,cond); 
+simplify(ans1.y);
+ezplot(ans1.y,[0:0.01:10]) ;
+title('$y_{zs}(t)$','Interpreter','Latex');
+
+2
+clear all;
+%零输入响应
+eq1_1 ='D2y+4*Dy+3=0' ;
+cond_1 ='y(0)=2,Dy(0)=1';
+yzi = dsolve(eq1_1,cond_1);
+ezplot(yzi,[0:0.01:10])
+title('$y_{zi}(t)$','Interpreter','Latex');
+hold on;
+grid on;
+axis([0,10])
+
+
+2
+clear all;
+全响应响应
+eq1_1 ='D2y+4*Dy+3=Dx+x';
+eq2 = 'x=heaviside(t)*exp(-2*t)';
+cond_1 ='y(-0.01)=2,Dy(-0.01)=1';
+y = dsolve(eq1_1,eq2,cond_1);
+ezplot(y.y,[0:0.01:10])
+hold on;
+grid on;
+title('$y(t)$','Interpreter','Latex');
+
+% 3
+% 零状态
+clear all 
+eq1 ='D2y+4*Dy+3*y=Dx+2*x' ;
+eq2 = 'x=heaviside(t)*exp(-2*t)' ;
+cond = 'y(-0.01)=0,Dy(-0.01)=0,D2y(-0.01)=0';
+ans1 = dsolve( eq1,eq2,cond); 
+simplify(ans1.y);
+ezplot(ans1.y,[0:0.01:10]) ;
+title('$y_{zs}(t)$','Interpreter','Latex');
+
+%3
+clear all;
+%零输入响应
+eq1_1 ='D2y+4*Dy+3=0' ;
+cond_1 ='y(0)=2,Dy(0)=1';
+yzi = dsolve(eq1_1,cond_1);
+ezplot(yzi,[0:0.01:10])
+hold on;
+title('$y_{zi}(t)$','Interpreter','Latex');
+grid on;
+
+
+3
+clear all;
+%全响应响应
+eq1_1 ='D2y+4*Dy+3=Dx+2*x';
+eq2 = 'x=heaviside(t)*exp(-2*t)';
+cond_1 ='y(-0.01)=2,Dy(-0.01)=1';
+ans = dsolve(eq1_1,eq2,cond_1);
+ezplot(ans.y,[0:0.01:10])
+title('$y(t)$','Interpreter','Latex');
+hold on;
+grid on;
+
+4-1
+clear all
+eq1 ='D2y+3*Dy+2*y=heaviside(t)' ;
+cond = 'y(-0.01)=0,Dy(-0.01)=0,D2y(-0.01)=0';
+ans1 = dsolve(eq1,cond); 
+simplify(ans1);
+ezplot(ans1,[0:0.01:10]);
+hold on;
+grid on;
+title('y(t)')
+
+% 4-2
+clear all
+eq1 ='D2y+2*Dy+2*y=dirac(t)';
+cond = 'y(0)=0,Dy(0)=0';
+ans1 = dsolve(eq1,cond);
+ezplot(ans1);
+grid on;
+title('y(t)')
+
